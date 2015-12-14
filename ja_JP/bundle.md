@@ -2,13 +2,13 @@
 
 ## コンテナ形式
 
-この節では、あるコンテナを一定の方法でまとめたファイルの集合である「ファイルシステムバンドル」として固めるフォーマットを定義します。また、どのOCI互換ランタイムも標準的なオペレーションをそれに対して実行できるデータとメタデータを含んでいるように、バンドルを定義します。
+この節では、あるコンテナを一定の方法でまとめたファイルの集合である「ファイルシステムバンドル」として固めるフォーマットを定義します。また、どのOCF準拠ランタイムも標準的なオペレーションをそれに対して実行できるデータとメタデータを含んでいるように、バンドルを定義します。
 >This section defines a format for encoding a container as a *filesystem bundle* - a set of files organized in a certain way, and containing all the necessary data and metadata for any compliant runtime to perform all standard operations against it.
 
 「バンドル」を似たような意味で使っている例としては、[OS X アプリケーションバンドル](http://en.wikipedia.org/wiki/Bundle_%28OS_X%29)が挙げられます。
 >See also [OS X application bundles](http://en.wikipedia.org/wiki/Bundle_%28OS_X%29) for a similar use of the term *bundle*.
 
-バンドルの定義をするにあたっては、どのようにコンテナとコンテナの設定データをローカルファイルシステムに保存し、OCI互換ランタイムで使えるようにするかのみを考えます。
+バンドルの定義をするにあたっては、どのようにコンテナとコンテナの設定データをローカルファイルシステムに保存し、OCF準拠ランタイムで使えるようにするかのみを考えます。
 >The definition of a bundle is only concerned with how a container, and its configuration data, are stored on a local file system so that it can be consumed by a compliant runtime.
 
 「標準コンテナ」はコンテナをロードし実行するのに必要な情報をすべて含んでいます。これは下記に示す3つの情報がローカルファイルシステムの同じディレクトリになければならないことを意味しています。
