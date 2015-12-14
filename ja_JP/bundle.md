@@ -17,32 +17,32 @@
 
 1. `config.json` : ホストによらない設定情報
 このファイルは`config.json`という名前でなければなりません。このファイルには、動作させるホストに依存しないアプリケーション固有の情報、例えばセキュリティのパーミッションや、環境変数、実行時の引数などを記述します。
+バンドルをディストリビューション向けにパッケージ化する場合には、このファイルを必ず含みます。より詳細には[`config.json`](config.md)を参照してください。
 >1. `config.json` : contains host-independent configuration data.
 >This REQUIRED file, which MUST be named `config.json`, contains settings that are host-independent and application-specific such as security permissions, environment variables and arguments.
-バンドルをディストリビューション向けにパッケージ化する場合には、このファイルを必ず含みます。より詳細には[`config.json`](config.md)を参照してください。
 >When the bundle is packaged up for distribution, this file MUST be included.
 See [`config.json`](config.md) for more details.
 
 2. `runtime.json` : ホスト特有の設定情報
 このファイル`runtime.json`という名前でなければなりません。このファイルには、マウントソースやフックといったホスト特有の情報を記述します。
+このファイルの目的は、バンドルが他のランタイムに移植できる最小単位となれるようにすることと、`runtime.json`が一度定義されれば、それに基づき同じアプリケーションが同じように動作できるようにすることです。
+バンドルをディストリビューション向けにパッケージ化する場合には、このファイルを含まないようにする必要があります。より詳細には [`runtime.json`](runtime-config.md)を参照してください。
 >2. `runtime.json` : contains host-specific configuration data.
 >This REQUIRED file, which MUST be named `runtime.json`, contains settings that are host-specific such as mount sources and hooks.
-このファイルの目的は、バンドルが他のランタイムに移植できる最小単位となれるようにすることと、`runtime.json`が一度定義されれば、それに基づき同じアプリケーションが同じように動作できるようにすることです。
 >The goal is that the bundle can be moved as a unit to another runtime and run the same application once a host-specific `runtime.json` is defined.
-バンドルをディストリビューション向けにパッケージ化する場合には、このファイルを含まないようにする必要があります。より詳細には [`runtime.json`](runtime-config.md)を参照してください。
 >When the bundle is packaged up for distribution, this file MUST NOT be included.
 >See [`runtime.json`](runtime-config.md) for more details.
 
 3. コンテナのルートファイルシステムを表すディレクトリ
 このディレクトリの名前は任意ですが、通例の`rootfs`という名前を使うべきです。
+バンドルをディストリビューション向けにパッケージ化する場合には、このディレクトリを含むようにします。
+このディレクトリは、`config.json`ファイルにより指定されなければなりません。
 >3. A directory representing the root filesystem of the container.
 >While the name of this REQUIRED directory may be arbitrary, users should consider using a conventional name, such as `rootfs`.
-バンドルをディストリビューション向けにパッケージ化する場合には、このディレクトリを含むようにします。
 >When the bundle is packaged up for distribution, this directory MUST be included.
-このディレクトリは、`config.json`ファイルにより指定されなければなりません。
 >This directory MUST be referenced from within the `config.json` file.
 
 この3つの情報は、ローカルファイルシステムの一つのディレクトリに存在しなければならず、またそのディレクトリ自体はバンドルの一部にしてはなりません。
->While these three artifacts MUST all be present in a single directory on the local filesytem, that directory itself is not part of the bundle.
 言い換えると、ひとつのバンドルのtarアーカイブはこれらの情報をアーカイブのrootに持っており、トップレベルのディレクトリは含んでいないということになります。
+>While these three artifacts MUST all be present in a single directory on the local filesytem, that directory itself is not part of the bundle.
 >In other words, a tar archive of a *bundle* will have these artifacts at the root of the archive, not nested within a top-level directory.
