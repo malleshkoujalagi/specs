@@ -2,21 +2,25 @@
 
 コンテナのトップレベルディレクトリに、`config.json`という設定ファイルがなければなりません。
 今のところ、標準的なスキーマは[config.go](../config.go)と[config_linux.go](../config_linux.go)に定義されていますが、しばらくすれば正式なJSONスキーマに置き換えられるでしょう。
+
 >The container's top-level directory MUST contain a configuration file called `config.json`.
 >For now the canonical schema is defined in [config.go](config.go) and [config_linux.go](config_linux.go), but this will be moved to a formal JSON schema over time.
 
 この設定ファイルは、コンテナに対する標準的な操作を実装するのに必要なメタデータを含んでいます。
 すなわち、実行すべきプロセスや、追加設定すべき環境変数、利用すべきサンドボックス機能等です。
+
 >The configuration file contains metadata necessary to implement standard operations against the container.
 >This includes the process to run, environment variables to inject, sandboxing features to use, etc.
 
 下記に設定フォーマットの個々のフィールドの詳細を記述します。
+
 >Below is a detailed description of each field defined in the configuration format.
 
 ## マニフェストのバージョン
 
 * **`version`** (string, 必須)は[SemVer v2.0.0](http://semver.org/spec/v2.0.0.html)形式で記述されなければなりません。これはこのコンテナバンドルが準拠するOCF仕様のバージョンを示します。Open Container仕様はセマンティックによるバージョンづけと、同じメジャーバージョンにおける前方及び後方互換性を保持します。
 例えば、ある実装がバージョン1.0.1の仕様に準拠しているなら、これは1.xシリーズの仕様にも互換性があります。
+
 >* **`version`** (string, required) must be in [SemVer v2.0.0](http://semver.org/spec/v2.0.0.html) format and specifies the version of the OCF specification with which the container bundle complies. The Open Container spec follows semantic versioning and retains forward and backward compatibility within major versions. For example, if an implementation is compliant with version 1.0.1 of the spec, it is compatible with the complete 1.x series.
 
 *例*
@@ -28,6 +32,7 @@
 ## ルートの設定
 
 各コンテナは*root*オブジェクトにより指定された、一つの*ルートファイルシステム*を確実に持ちます:
+
 >Each container has exactly one *root filesystem*, specified in the *root* object:
 
 * **`path`** (string, 必須)は、コンテナのルートファイルシステムのパスを指定します。このパスはマニフェストからの相対パスになります。この相対パスで表された場所には、必ずディレクトリがなくてはなりません。
