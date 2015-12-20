@@ -50,16 +50,24 @@
 }
 ```
 
-## Mount Points
+## マウントポイント
 
-You can add array of mount points inside container as `mounts`.
-Each record in this array must have configuration in [runtime config](runtime-config.md#mount-configuration).
-The runtime MUST mount entries in the listed order.
+コンテナ内のマウントポイントを、`mounts`という配列として追加できます。
+この配列の個々のレコードは、[ランタイム設定](runtime-config.md#mount-configuration)に設定されている必要があります。
+（訳註：例でわかるように、ホスト側のランタイム設定の中で設定したマウントポイントの「名称」と、ここで指定した設定の「名称」を突き合わせて利用するため、このような記述になっています。）
+ランタイムは必ずこれらのエントリを、リストされた順序でマウントしなければなりません。
 
-* **`name`** (string, required) Name of mount point. Used for config lookup.
-* **`path`** (string, required) Destination of mount point: path inside container.
+>You can add array of mount points inside container as `mounts`.
+>Each record in this array must have configuration in [runtime config](runtime-config.md#mount-configuration).
+>The runtime MUST mount entries in the listed order.
 
-*Example*
+* **`name`** (string, 必須) マウントポイントの名称。マウントポイントを見つけるために使う。
+* **`path`** (string, 必須) マウント先。コンテナ内の絶対パスです。
+
+>* **`name`** (string, required) Name of mount point. Used for config lookup.
+>* **`path`** (string, required) Destination of mount point: path inside container.
+
+*例*
 
 ```json
 "mounts": [
@@ -82,12 +90,17 @@ The runtime MUST mount entries in the listed order.
 ]
 ```
 
-## Process configuration
+## プロセス設定
 
-* **`terminal`** (bool, optional) specifies whether you want a terminal attached to that process. Defaults to false.
-* **`cwd`** (string, optional) is the working directory that will be set for the executable.
-* **`env`** (array of strings, optional) contains a list of variables that will be set in the process's environment prior to execution. Elements in the array are specified as Strings in the form "KEY=value". The left hand side must consist solely of letters, digits, and underscores `_` as outlined in [IEEE Std 1003.1-2001](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap08.html).
-* **`args`** (string, required) executable to launch and any flags as an array. The executable is the first element and must be available at the given path inside of the rootfs. If the executable path is not an absolute path then the search $PATH is interpreted to find the executable.
+* **`terminal`** (bool, オプション) は、ターミナルをこのプロセスに接続するかどうかを指定します。デフォルトではfalseです。
+* **`cwd`** (string, オプション) は、実行時のワーキングディレクトリを指定します。
+* **`env`** (array of strings, オプション) は、プロセスの実行前に設定される環境変数のリストです。この配列の要素は、"KEY=value"の形式で指定され、左辺は [IEEE Std 1003.1-2001](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap08.html) で定義されているように、アルファベットで始まり、数字とアンダースコアを含む文字列です。
+* **`args`** (string, 必須) は、コンテナの実行に実行可能バイナリとフラグの配列です。実行可能バイナリは、配列の最初であり、rootfs中の実行可能なパスでなければなりません。実行可能バイナリのパスが絶対パス出ない場合、$PATH環境変数で指定されたパス中から実行可能バイナリを探します。
+
+>* **`terminal`** (bool, optional) specifies whether you want a terminal attached to that process. Defaults to false.
+>* **`cwd`** (string, optional) is the working directory that will be set for the executable.
+>* **`env`** (array of strings, optional) contains a list of variables that will be set in the process's environment prior to execution. Elements in the array are specified as Strings in the form "KEY=value". The left hand side must consist solely of letters, digits, and underscores `_` as outlined in [IEEE Std 1003.1-2001](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap08.html).
+>* **`args`** (string, required) executable to launch and any flags as an array. The executable is the first element and must be available at the given path inside of the rootfs. If the executable path is not an absolute path then the search $PATH is interpreted to find the executable.
 
 The user for the process is a platform-specific structure that allows specific control over which user the process runs as.
 For Linux-based systems the user structure has the following fields:
