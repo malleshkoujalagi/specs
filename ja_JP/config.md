@@ -102,14 +102,21 @@
 >* **`env`** (array of strings, optional) contains a list of variables that will be set in the process's environment prior to execution. Elements in the array are specified as Strings in the form "KEY=value". The left hand side must consist solely of letters, digits, and underscores `_` as outlined in [IEEE Std 1003.1-2001](http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap08.html).
 >* **`args`** (string, required) executable to launch and any flags as an array. The executable is the first element and must be available at the given path inside of the rootfs. If the executable path is not an absolute path then the search $PATH is interpreted to find the executable.
 
-The user for the process is a platform-specific structure that allows specific control over which user the process runs as.
-For Linux-based systems the user structure has the following fields:
+プロセスのユーザ指定とは、プラットフォーム特有の構造体で、このコンテナプロセスを実行するときに制御するユーザを指定します。
+Linuxベースのシステムでは、ユーザ構造体は以下のフィールドを持ちます。
 
-* **`uid`** (int, required) specifies the user id.
-* **`gid`** (int, required) specifies the group id.
-* **`additionalGids`** (array of ints, optional) specifies additional group ids to be added to the process.
+>The user for the process is a platform-specific structure that allows specific control over which user the process runs as.
+>For Linux-based systems the user structure has the following fields:
 
-*Example (Linux)*
+* **`uid`** (int, 必須) はユーザIDを指定します。
+* **`gid`** (int, 必須) はグループIDを指定します。
+* **`additionalGids`** (array of ints, オプション) はプロセスに追加されるグループIDを指定します。
+
+>* **`uid`** (int, required) specifies the user id.
+>* **`gid`** (int, required) specifies the group id.
+>* **`additionalGids`** (array of ints, optional) specifies additional group ids to be added to the process.
+
+*例 (Linux)*
 
 ```json
 "process": {
@@ -131,20 +138,26 @@ For Linux-based systems the user structure has the following fields:
 ```
 
 
-## Hostname
+## ホスト名
 
-* **`hostname`** (string, optional) as it is accessible to processes running inside.  On Linux, you can only set this if your bundle creates a new [UTS namespace][uts-namespace].
+* **`hostname`** (string, オプション) はコンテナ内で実行しているプロセスからアクセスできるホスト名です。Linuxではバンドルが新しい[UTS namespace][uts-namespace]を作成した時だけセットできます。
 
-*Example*
+*例*
 
 ```json
 "hostname": "mrsdalloway"
 ```
 
-## Platform-specific configuration
+## プラットフォーム固有の設定項目
 
-* **`os`** (string, required) specifies the operating system family this image must run on. Values for os must be in the list specified by the Go Language document for [`$GOOS`](https://golang.org/doc/install/source#environment).
-* **`arch`** (string, required) specifies the instruction set for which the binaries in the image have been compiled. Values for arch must be in the list specified by the Go Language document for [`$GOARCH`](https://golang.org/doc/install/source#environment).
+* **`os`** (string, 必須) はこのイメージが実行されるべきOSの種類を指定します。OSの値はGo言語のドキュメント [`$GOOS`](https://golang.org/doc/install/source#environment) で定義されたものでなければなりません。
+* **`arch`** (string, 必須) はこのイメージの中にあるバイナリがコンパイルされた命令セットを示します。この値は、はGo言語のドキュメント [`$GOOS`](https://golang.org/doc/install/source#environment) で定義されたものでなければなりません。
+
+
+>* **`os`** (string, required) specifies the operating system family this image must run on. Values for os must be in the list specified by the Go Language document for [`$GOOS`](https://golang.org/doc/install/source#environment).
+>* **`arch`** (string, required) specifies the instruction set for which the binaries in the image have been compiled. Values for arch must be in the list specified by the Go Language document for [`$GOARCH`](https://golang.org/doc/install/source#environment).
+
+*例*
 
 ```json
 "platform": {
@@ -153,7 +166,10 @@ For Linux-based systems the user structure has the following fields:
 }
 ```
 
-Interpretation of the platform section of the JSON file is used to find which platform-specific sections may be available in the document.
-For example, if `os` is set to `linux`, then a JSON object conforming to the [Linux-specific schema](config-linux.md) SHOULD be found at the key `linux` in the `config.json`.
+JSONファイルのplatformセクションの情報は、どのプラットフォーム特有のセクションが有効になるかを解釈するために使われます。
+例えば、`os`が`linux`であれば、[Linux特有のスキーマ](config-linux.md)で示されるJSONオブジェクトが`config.json`中の`linux`というキーで探し出せるべきです。
+
+>Interpretation of the platform section of the JSON file is used to find which platform-specific sections may be available in the document.
+>For example, if `os` is set to `linux`, then a JSON object conforming to the [Linux-specific schema](config-linux.md) SHOULD be found at the key `linux` in the `config.json`.
 
 [uts-namespace]: http://man7.org/linux/man-pages/man7/namespaces.7.html
